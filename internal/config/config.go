@@ -210,7 +210,7 @@ func Load(workingDir string, debug bool) (*Config, error) {
 	// Override the max tokens for title agent
 	cfg.Agents[AgentTitle] = Agent{
 		Model:     cfg.Agents[AgentTitle].Model,
-		MaxTokens: 80,
+		MaxTokens: 1024,
 	}
 	return cfg, nil
 }

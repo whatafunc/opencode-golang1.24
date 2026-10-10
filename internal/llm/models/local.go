@@ -75,7 +75,14 @@ type localModel struct {
 }
 
 func listLocalModels(modelsEndpoint string) []localModel {
-	res, err := http.Get(modelsEndpoint)
+	req, reqErr := http.NewRequest(http.MethodGet, modelsEndpoint, nil)
+	if reqErr != nil {
+		return []localModel{}
+	}
+	if key := os.Getenv("OPENAI_API_KEY"); key != "" {
+		req.Header.Set("Authorization", "Bearer "+key)
+	}
+	res, err := http.DefaultClient.Do(req)
 	if err != nil {
 		logging.Debug("Failed to list local models",
 			"error", err,
